@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import Background from '../../../Components/Background';
+import { useNavigation } from '@react-navigation/native';
 
 export default function OtpScreen() {
     const [otp, setOtp] = useState(['', '', '', '']);
-    const refs = {};
+    const inputRefs = useRef([]);
+    const navigation = useNavigation();
 
     const handleOtpChange = (value, index) => {
         const newOtp = [...otp];
@@ -13,8 +15,7 @@ export default function OtpScreen() {
 
         // Auto-focus next input
         if (value && index < otp.length - 1) {
-            const nextInput = `otp${index + 1}`;
-            if (refs[nextInput]) refs[nextInput].focus();
+            inputRefs.current[index + 1].focus();
         }
     };
 
@@ -28,7 +29,7 @@ export default function OtpScreen() {
                     {otp.map((digit, index) => (
                         <TextInput
                             key={index}
-                            ref={ref => (refs[`otp${index}`] = ref)}
+                            ref={ref => (inputRefs.current[index] = ref)}
                             value={digit}
                             onChangeText={value => handleOtpChange(value, index)}
                             keyboardType="number-pad"
@@ -38,10 +39,9 @@ export default function OtpScreen() {
                     ))}
                 </View>
 
-                {/* New Text Above Verify Button */}
                 <View style={styles.resendRow}>
                     <Text style={styles.resendLabel}>Didn't receive code? </Text>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate('ResetPassword')}>
                         <Text style={styles.resendLink}>Resend</Text>
                     </TouchableOpacity>
                 </View>
@@ -73,7 +73,6 @@ const styles = StyleSheet.create({
     heading: {
         fontFamily: 'Poppins',
         fontWeight: '400',
-        fontStyle: 'normal',
         fontSize: 20,
         lineHeight: 20,
         letterSpacing: -0.24,
@@ -82,13 +81,13 @@ const styles = StyleSheet.create({
         top: 20
     },
 
-
     otpContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         width: '80%',
         marginBottom: 20,
         top: 30
+
     },
 
     otpInput: {
@@ -108,7 +107,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 20,
         top: 40
-
     },
 
     resendLabel: {
