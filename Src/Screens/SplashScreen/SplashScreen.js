@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import { ImageBackground, Text, StyleSheet } from "react-native";
+import { SCREENS } from "../../navigation/navigationStrings/NavigationStrings";
 
 const SplashScreen = ({ navigation }) => {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            navigation.replace("Login");
+            navigation.replace(SCREENS.LOGIN);
         }, 5000);
 
         return () => clearTimeout(timer);
@@ -13,7 +14,7 @@ const SplashScreen = ({ navigation }) => {
 
     return (
         <ImageBackground
-            source={require("../../Assets/Images/Maskgroup.jpg")}
+            source={require("../../assets/Images/Maskgroup.jpg")}
             style={styles.background}
             resizeMode="cover"
         >

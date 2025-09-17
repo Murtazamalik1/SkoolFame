@@ -1,37 +1,41 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import Background from '../../../Components/Background';
+import Background from '../../../components/Background';
 import { useNavigation } from '@react-navigation/native';
-
+import { SCREENS } from '../../../navigation/navigationStrings/NavigationStrings';
+import CustomInput from '../../../components/atoms/customInput/CustomInput';
+import CustomButton from '../../../components/atoms/customButton/CustomButton';
+import Colors from '../../../constants/colors/Colors';
+import FONTS from '../../../constants/fonts/Fonts';
+import WrapperContainer from '../../../components/wrapperContainer/WrapperContainer';
 
 export default function ForgetPasswordScreen() {
     const [email, setEmail] = useState('');
     const navigation = useNavigation();
 
     return (
-        <Background>
-            <View style={styles.container}>
-                <Text style={styles.logo}>Skoolfame</Text>
-                <Text style={styles.heading}>Forget Password</Text>
+        <WrapperContainer>
+            <Background>
+                <View style={styles.container}>
+                    <Text style={styles.logo}>Skoolfame</Text>
+                    <Text style={styles.heading}>Forget Password</Text>
 
-                <View style={styles.form}>
-                    <TextInput
-                        value={email}
-                        onChangeText={setEmail}
-                        placeholder="Enter email"
-                        placeholderTextColor="#bdbdbd"
-                        style={styles.input}
-                        keyboardType="email-address"
-                        autoCapitalize="none"
-                    />
+                    <View style={styles.form}>
+                        <CustomInput
+                            value={email}
+                            onChangeText={setEmail}
+                            placeholder="Enter email"
+                            keyboardType="email-address"
+                        />
 
-                    <TouchableOpacity style={styles.primaryBtn} activeOpacity={0.85}
-                        onPress={() => navigation.navigate('Otp')}>
-                        <Text style={styles.primaryBtnText}>Send</Text>
-                    </TouchableOpacity>
+                        <CustomButton
+                            title="Send"
+                            onPress={() => navigation.navigate(SCREENS.OTPSCREEN)}
+                        />
+                    </View>
                 </View>
-            </View>
-        </Background>
+            </Background>
+        </WrapperContainer>
     );
 }
 
@@ -47,8 +51,8 @@ const styles = StyleSheet.create({
     logo: {
         marginTop: 100,
         fontSize: 50,
-        color: '#fff',
-        fontFamily: "cursive",
+        color: Colors.text,
+        fontFamily: FONTS.logo,
         marginBottom: 8,
     },
 
@@ -57,7 +61,7 @@ const styles = StyleSheet.create({
         fontWeight: '400',
         fontSize: 22,
         lineHeight: 28,
-        color: '#fff',
+        color: Colors.text,
         marginTop: 50,
         marginBottom: 18,
     },
@@ -66,34 +70,6 @@ const styles = StyleSheet.create({
         width: '100%',
         alignItems: 'center',
         marginTop: 40,
-    },
-
-    input: {
-        width: '100%',
-        height: 48,
-        borderRadius: 30,
-        borderWidth: 1,
-        borderColor: 'rgba(255,255,255,0.18)',
-        paddingHorizontal: 18,
-        color: '#fff',
-        marginVertical: 8,
-        backgroundColor: 'rgba(255,255,255,0.02)',
-    },
-
-    primaryBtn: {
-        width: '100%',
-        height: 48,
-        borderRadius: 14,
-        marginTop: 25,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#F2E03A',
-    },
-
-    primaryBtnText: {
-        color: '#111',
-        fontSize: 16,
-        fontWeight: '600',
     },
 
 });

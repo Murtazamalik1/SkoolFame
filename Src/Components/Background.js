@@ -1,22 +1,12 @@
 import React from 'react';
 import { View, StyleSheet, Image } from 'react-native';
+import Images from '../constants/image/imagePath'
 
 export default function Background({ children }) {
     return (
         <View style={styles.safe}>
-
-            <Image
-                source={require('../Assets/Images/Ellipse.png')}
-                style={styles.bgGlowTop}
-                resizeMode="contain"
-            />
-
-            <Image
-                source={require('../Assets/Images/Ellipse19.png')}
-                style={styles.bgGlowBottom}
-                resizeMode="contain"
-            />
-
+            <Image source={Images.ellipse} style={styles.bgGlowTop} resizeMode="contain" />
+            <Image source={Images.ellipse19} style={styles.bgGlowBottom} resizeMode="contain" />
             {children}
         </View>
     );

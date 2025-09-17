@@ -1,7 +1,12 @@
 import React, { useState, useRef } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import Background from '../../../Components/Background';
+import Background from '../../../components/Background';
 import { useNavigation } from '@react-navigation/native';
+import { SCREENS } from '../../../navigation/navigationStrings/NavigationStrings';
+import Colors from '../../../constants/colors/Colors';
+import FONTS from '../../../constants/fonts/Fonts';
+import CustomButton from '../../../components/atoms/customButton/CustomButton';
+import WrapperContainer from '../../../components/wrapperContainer/WrapperContainer';
 
 export default function OtpScreen() {
     const [otp, setOtp] = useState(['', '', '', '']);
@@ -20,37 +25,43 @@ export default function OtpScreen() {
     };
 
     return (
-        <Background>
-            <View style={styles.container}>
-                <Text style={styles.logo}>Skoolfame</Text>
-                <Text style={styles.heading}>Enter OTP</Text>
+        <WrapperContainer>
+            <Background>
+                <View style={styles.container}>
+                    <Text style={styles.logo}>Skoolfame</Text>
+                    <Text style={styles.heading}>Enter OTP</Text>
 
-                <View style={styles.otpContainer}>
-                    {otp.map((digit, index) => (
-                        <TextInput
-                            key={index}
-                            ref={ref => (inputRefs.current[index] = ref)}
-                            value={digit}
-                            onChangeText={value => handleOtpChange(value, index)}
-                            keyboardType="number-pad"
-                            maxLength={1}
-                            style={styles.otpInput}
-                        />
-                    ))}
+                    <View style={styles.otpContainer}>
+                        {otp.map((digit, index) => (
+                            <TextInput
+                                key={index}
+                                ref={ref => (inputRefs.current[index] = ref)}
+                                value={digit}
+                                onChangeText={value => handleOtpChange(value, index)}
+                                keyboardType="number-pad"
+                                maxLength={1}
+                                style={styles.otpInput}
+                            />
+                        ))}
+                    </View>
+
+                    <View style={styles.resendRow}>
+                        <Text style={styles.resendLabel}>Didn't receive code? </Text>
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate(SCREENS.RESET_PASSWORD)}>
+                            <Text style={styles.resendLink}>Resend</Text>
+                        </TouchableOpacity>
+                    </View>
+
+                    <CustomButton
+                        title="Submit"
+                        onPress={() => {
+                            console.log('OTP submitted');
+                        }}
+                    />
                 </View>
-
-                <View style={styles.resendRow}>
-                    <Text style={styles.resendLabel}>Didn't receive code? </Text>
-                    <TouchableOpacity onPress={() => navigation.navigate('ResetPassword')}>
-                        <Text style={styles.resendLink}>Resend</Text>
-                    </TouchableOpacity>
-                </View>
-
-                <TouchableOpacity style={styles.primaryBtn} activeOpacity={0.85}>
-                    <Text style={styles.primaryBtnText}>Submit</Text>
-                </TouchableOpacity>
-            </View>
-        </Background>
+            </Background>
+        </WrapperContainer>
     );
 }
 
@@ -65,8 +76,8 @@ const styles = StyleSheet.create({
 
     logo: {
         fontSize: 50,
-        color: '#fff',
-        fontFamily: "cursive",
+        color: Colors.text,
+        fontFamily: FONTS.logo,
         marginBottom: 24,
     },
 
@@ -76,9 +87,9 @@ const styles = StyleSheet.create({
         fontSize: 20,
         lineHeight: 20,
         letterSpacing: -0.24,
-        color: '#fff',
+        color: Colors.text,
         marginBottom: 50,
-        top: 20
+        top: 30
     },
 
     otpContainer: {
@@ -95,45 +106,27 @@ const styles = StyleSheet.create({
         height: 50,
         borderRadius: 12,
         borderWidth: 1,
-        borderColor: 'rgba(255,255,255,0.3)',
+        borderColor: Colors.border,
         textAlign: 'center',
-        color: '#fff',
+        color: Colors.text,
         fontSize: 20,
-        backgroundColor: 'rgba(255,255,255,0.05)',
+        backgroundColor: Colors.INPUT_BACKGROUND,
     },
 
     resendRow: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 20,
+        marginBottom: 60,
         top: 40
     },
 
     resendLabel: {
-        color: '#ccc',
+        color: Colors.text,
         fontSize: 14,
     },
 
     resendLink: {
-        color: '#0085FF',
+        color: Colors.PrimaryText,
         fontSize: 14,
     },
-
-    primaryBtn: {
-        width: '100%',
-        height: 48,
-        borderRadius: 14,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#F2E03A',
-        marginBottom: 20,
-        top: 50
-    },
-
-    primaryBtnText: {
-        color: '#111',
-        fontSize: 16,
-        fontWeight: '600',
-    },
-
 });

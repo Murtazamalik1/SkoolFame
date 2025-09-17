@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import Background from '../../../Components/Background';
+import Background from '../../../components/Background';
+import CustomButton from '../../../components/atoms/customButton/CustomButton';
+import CustomInput from '../../../components/atoms/customInput/CustomInput';
+import Colors from '../../../constants/colors/Colors';
+import FONTS from '../../../constants/fonts/Fonts';
 
 export default function ResetPasswordScreen() {
     const [password, setPassword] = useState('');
@@ -19,27 +23,25 @@ export default function ResetPasswordScreen() {
                     <Text style={styles.heading}>Reset Password</Text>
 
                     <View style={styles.form}>
-                        <TextInput
+                        <CustomInput
                             value={password}
                             onChangeText={setPassword}
                             placeholder="Create new password"
-                            placeholderTextColor="#bdbdbd"
-                            style={styles.input}
                             secureTextEntry
                         />
 
-                        <TextInput
+                        <CustomInput
                             value={confirmPassword}
                             onChangeText={setConfirmPassword}
                             placeholder="Re-enter new password"
-                            placeholderTextColor="#bdbdbd"
-                            style={styles.input}
                             secureTextEntry
                         />
 
-                        <TouchableOpacity style={styles.primaryBtn} activeOpacity={0.85}>
-                            <Text style={styles.primaryBtnText}>Sign In</Text>
-                        </TouchableOpacity>
+                        <CustomButton
+                            title="Sign In"
+                            onPress={() => console.log("Password Reset Submitted")}
+                        />
+
                     </View>
                 </View>
             </View>
@@ -60,8 +62,8 @@ const styles = StyleSheet.create({
 
     logo: {
         fontSize: 50,
-        color: '#fff',
-        fontFamily: "cursive",
+        color: Colors.text,
+        fontFamily: FONTS.logo,
         top: 160
 
     },
@@ -78,41 +80,13 @@ const styles = StyleSheet.create({
         fontSize: 20,
         lineHeight: 20,
         letterSpacing: -0.24,
-        color: '#fff',
+        color: Colors.text,
         marginBottom: 40,
     },
 
     form: {
         width: '100%',
         alignItems: 'center',
-    },
-
-    input: {
-        width: '100%',
-        height: 48,
-        borderRadius: 30,
-        borderWidth: 1,
-        borderColor: 'rgba(255,255,255,0.18)',
-        paddingHorizontal: 18,
-        color: '#fff',
-        marginVertical: 10,
-        backgroundColor: 'rgba(255,255,255,0.02)',
-    },
-
-    primaryBtn: {
-        width: '100%',
-        height: 48,
-        borderRadius: 14,
-        marginTop: 25,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#F2E03A',
-    },
-
-    primaryBtnText: {
-        color: '#111',
-        fontSize: 16,
-        fontWeight: '600',
     },
 
 });
