@@ -1,5 +1,4 @@
 export const SCREENS = {
-
     // Auth Screens
     WELCOME: 'welcome',
     LOGIN: 'login',

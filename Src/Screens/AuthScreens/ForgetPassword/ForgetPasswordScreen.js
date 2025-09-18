@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import Background from '../../../components/Background';
 import { useNavigation } from '@react-navigation/native';
-import { SCREENS } from '../../../navigation/navigationStrings/NavigationStrings';
-import CustomInput from '../../../components/atoms/customInput/CustomInput';
-import CustomButton from '../../../components/atoms/customButton/CustomButton';
-import Colors from '../../../constants/colors/Colors';
-import FONTS from '../../../constants/fonts/Fonts';
+import { SCREENS } from '../../../navigation/NavigationStrings';
+import CustomInput from '../../../components/atoms/CustomInput';
+import CustomButton from '../../../components/atoms/CustomButton';
+import Colors from '../../../constants/colors';
+import FONTS from '../../../constants/fonts';
 import WrapperContainer from '../../../components/wrapperContainer/WrapperContainer';
+import { getScaledFontSize } from '../../../constants/globalFunction';
 
 export default function ForgetPasswordScreen() {
     const [email, setEmail] = useState('');
@@ -50,16 +51,16 @@ const styles = StyleSheet.create({
 
     logo: {
         marginTop: 100,
-        fontSize: 50,
+        fontSize: getScaledFontSize(50),
         color: Colors.text,
         fontFamily: FONTS.logo,
         marginBottom: 8,
     },
 
     heading: {
-        fontFamily: 'Poppins',
+        fontFamily: FONTS.Poppins,
         fontWeight: '400',
-        fontSize: 22,
+        fontSize: getScaledFontSize(22),
         lineHeight: 28,
         color: Colors.text,
         marginTop: 50,

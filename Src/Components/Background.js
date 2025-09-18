@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Image } from 'react-native';
-import Images from '../constants/image/imagePath'
+import Images from '../constants/imagePath'
+import COLORS from '../constants/colors';
 
 export default function Background({ children }) {
     return (
@@ -15,7 +16,7 @@ export default function Background({ children }) {
 const styles = StyleSheet.create({
     safe: {
         flex: 1,
-        backgroundColor: '#000',
+        backgroundColor: COLORS.background,
     },
 
     bgGlowTop: {

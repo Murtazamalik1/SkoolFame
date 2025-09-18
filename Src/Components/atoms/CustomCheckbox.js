@@ -1,8 +1,6 @@
 import React from "react";
 import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
-import Colors from "../../../constants/colors/Colors";
-
-
+import Colors from "../../constants/colors";
 
 export default function CustomCheckbox({ label, checked, onChange }) {
     return (
@@ -18,7 +16,13 @@ export default function CustomCheckbox({ label, checked, onChange }) {
 }
 
 const styles = StyleSheet.create({
-    container: { flexDirection: "row", alignItems: "center", marginVertical: 8 },
+
+    container: {
+        flexDirection: "row",
+        alignItems: "center",
+        marginVertical: 8
+    },
+
     box: {
         width: 20,
         height: 20,
@@ -27,8 +31,14 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         marginRight: 10,
     },
+
     boxChecked: {
         backgroundColor: Colors.primary,
     },
-    label: { color: Colors.text },
+
+    label: {
+        color: Colors.text
+    },
+
+
 });

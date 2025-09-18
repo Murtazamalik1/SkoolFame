@@ -1,8 +1,16 @@
 import React from "react";
-import { TouchableOpacity, Text, StyleSheet } from "react-native";
-import Colors from "../../../constants/colors/Colors";
+import { TouchableOpacity, Text, StyleSheet, ViewStyle, TextStyle, GestureResponderEvent } from "react-native";
+import Colors from "../../constants/colors";
+import { getScaledFontSize } from "../../constants/globalFunction";
 
-export default function CustomButton({ title, onPress, style, textStyle }) {
+type CustomButtonProps = {
+    title: string;
+    onPress: (event: GestureResponderEvent) => void;
+    style?: ViewStyle | ViewStyle[];
+    textStyle?: TextStyle | TextStyle[];
+};
+
+export default function CustomButton({ title, onPress, style, textStyle }: CustomButtonProps) {
     return (
         <TouchableOpacity
             style={[styles.button, style]}
@@ -25,9 +33,10 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         marginTop: 25,
     },
+
     text: {
-        color: "#111",
-        fontSize: 16,
+        color: Colors.background,
+        fontSize: getScaledFontSize(16),
         fontWeight: "600",
     },
 });

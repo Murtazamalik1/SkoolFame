@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import Background from '../../../components/Background';
-import CustomButton from '../../../components/atoms/customButton/CustomButton';
-import CustomInput from '../../../components/atoms/customInput/CustomInput';
-import Colors from '../../../constants/colors/Colors';
-import FONTS from '../../../constants/fonts/Fonts';
+import CustomButton from '../../../components/atoms/CustomButton';
+import CustomInput from '../../../components/atoms/CustomInput';
+import Colors from '../../../constants/colors';
+import FONTS from '../../../constants/fonts';
+import { getScaledFontSize } from '../../../constants/globalFunction';
 
 export default function ResetPasswordScreen() {
     const [password, setPassword] = useState('');
@@ -61,11 +62,10 @@ const styles = StyleSheet.create({
     },
 
     logo: {
-        fontSize: 50,
+        fontSize: getScaledFontSize(50),
         color: Colors.text,
         fontFamily: FONTS.logo,
         top: 160
-
     },
 
     content: {
@@ -75,9 +75,9 @@ const styles = StyleSheet.create({
     },
 
     heading: {
-        fontFamily: 'Poppins',
+        fontFamily: FONTS.Poppins,
         fontWeight: '400',
-        fontSize: 20,
+        fontSize: getScaledFontSize(20),
         lineHeight: 20,
         letterSpacing: -0.24,
         color: Colors.text,

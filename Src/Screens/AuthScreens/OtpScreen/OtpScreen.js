@@ -2,11 +2,12 @@ import React, { useState, useRef } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import Background from '../../../components/Background';
 import { useNavigation } from '@react-navigation/native';
-import { SCREENS } from '../../../navigation/navigationStrings/NavigationStrings';
-import Colors from '../../../constants/colors/Colors';
-import FONTS from '../../../constants/fonts/Fonts';
-import CustomButton from '../../../components/atoms/customButton/CustomButton';
+import { SCREENS } from '../../../navigation/NavigationStrings';
+import FONTS from '../../../constants/fonts';
+import CustomButton from '../../../components/atoms/CustomButton';
 import WrapperContainer from '../../../components/wrapperContainer/WrapperContainer';
+import { getScaledFontSize } from '../../../constants/globalFunction';
+import COLORS from '../../../constants/colors';
 
 export default function OtpScreen() {
     const [otp, setOtp] = useState(['', '', '', '']);
@@ -75,19 +76,19 @@ const styles = StyleSheet.create({
     },
 
     logo: {
-        fontSize: 50,
-        color: Colors.text,
+        fontSize: getScaledFontSize(50),
+        color: COLORS.text,
         fontFamily: FONTS.logo,
         marginBottom: 24,
     },
 
     heading: {
-        fontFamily: 'Poppins',
+        fontFamily: FONTS.Poppins,
         fontWeight: '400',
-        fontSize: 20,
+        fontSize: getScaledFontSize(20),
         lineHeight: 20,
         letterSpacing: -0.24,
-        color: Colors.text,
+        color: COLORS.text,
         marginBottom: 50,
         top: 30
     },
@@ -106,11 +107,11 @@ const styles = StyleSheet.create({
         height: 50,
         borderRadius: 12,
         borderWidth: 1,
-        borderColor: Colors.border,
+        borderColor: COLORS.border,
         textAlign: 'center',
-        color: Colors.text,
-        fontSize: 20,
-        backgroundColor: Colors.INPUT_BACKGROUND,
+        color: COLORS.text,
+        fontSize: getScaledFontSize(20),
+        backgroundColor: COLORS.INPUT_BACKGROUND,
     },
 
     resendRow: {
@@ -121,12 +122,13 @@ const styles = StyleSheet.create({
     },
 
     resendLabel: {
-        color: Colors.text,
-        fontSize: 14,
+        color: COLORS.text,
+        fontSize: getScaledFontSize(20),
     },
 
     resendLink: {
-        color: Colors.PrimaryText,
-        fontSize: 14,
+        color: COLORS.PrimaryText,
+        fontSize: getScaledFontSize(14),
     },
+
 });

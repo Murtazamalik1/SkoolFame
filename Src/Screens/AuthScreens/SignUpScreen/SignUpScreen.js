@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
     View,
     Text,
@@ -10,17 +10,19 @@ import {
     FlatList,
     Modal
 } from 'react-native';
-import Images from '../../../constants/image/imagePath';
-import CustomInput from '../../../components/atoms/customInput/CustomInput';
+import Images from '../../../constants/imagePath';
+import CustomInput from '../../../components/atoms/CustomInput';
 import Icon from 'react-native-vector-icons/Entypo';
-import CustomModal from '../../../components/atoms/customModal/CustomModal';
-import CustomCheckbox from '../../../components/atoms/customCheckbox/CustomCheckbox';
-import { showToast } from '../../../components/atoms/toastMessage/ToastMessage';
+import CustomCheckbox from '../../../components/atoms/CustomCheckbox';
+import { showToast } from '../../../components/atoms/ToastMessage';
 import { Dimensions } from 'react-native';
-import CustomButton from '../../../components/atoms/customButton/CustomButton';
+import CustomButton from '../../../components/atoms/CustomButton';
 import WrapperContainer from '../../../components/wrapperContainer/WrapperContainer';
-import Colors from '../../../constants/colors/Colors';
-import Font from '../../../constants/fonts/Fonts'
+import Colors from '../../../constants/colors';
+import Font from '../../../constants/fonts'
+import { getScaledFontSize } from '../../../constants/globalFunction';
+import COLORS from '../../../constants/colors';
+import SchoolModal from '../../../components/atoms/SchoolModal';
 
 const { width, height } = Dimensions.get('window');
 
@@ -36,7 +38,7 @@ export default function SignUpScreen() {
     const [licenseAccepted, setLicenseAccepted] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
 
-    // Modal
+    // Modal state
     const [requestModalVisible, setRequestModalVisible] = useState(false);
     const [reqSchoolName, setReqSchoolName] = useState('');
     const [reqAddress, setReqAddress] = useState('');
@@ -54,11 +56,13 @@ export default function SignUpScreen() {
         setModalVisible(false);
     };
 
+
     const handleSendRequest = () => {
         if (!reqSchoolName || !reqAddress) {
             showToast("Please enter school name and address");
             return;
         }
+
         console.log("Request Sent:", reqSchoolName, reqAddress);
         showToast("School request sent successfully!");
         setReqSchoolName('');
@@ -66,37 +70,66 @@ export default function SignUpScreen() {
         setRequestModalVisible(false);
     };
 
+    const handlePrivacyChange = () =>
+        setPrivacyAccepted(prev => !prev);
+
+    const handleLicenseChange = () =>
+        setLicenseAccepted(prev => !prev);
+
+    const handleOpenSchoolModal = () =>
+        setModalVisible(true);
+
+    const handleCloseSchoolModal = () =>
+        setModalVisible(false);
+
+    const handleOpenRequestModal = () =>
+        setRequestModalVisible(true);
+
+    const handleCloseRequestModal = () =>
+        setRequestModalVisible(false);
+
+    const handleSignUp = () => {
+        console.log('Sign Up Pressed');
+    };
+
+    const renderSchoolOption = ({ item }) => (
+        <TouchableOpacity
+            onPress={() => handleSelectSchool(item)}
+            style={styles.option}
+        >
+            <Text style={styles.optionText}>{item}</Text>
+            <View style={[styles.radioCircle, school === item && styles.radioSelected]} />
+        </TouchableOpacity>
+    );
+
     return (
         <WrapperContainer>
-            {/* Background Images */}
+            {/* Backgrounds */}
             <Image source={Images.ellipse} style={styles.bgGlowTop} resizeMode="contain" />
             <Image source={Images.ellipse18} style={styles.bgGlowTopLeft} resizeMode="contain" />
             <Image source={Images.ellipse19} style={styles.bgGlowBottom} resizeMode="contain" />
 
-            <ScrollView
-                contentContainerStyle={styles.scroll}
-                keyboardShouldPersistTaps="handled"
-                showsVerticalScrollIndicator={false}
-            >
+            <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
                 <Text style={styles.logo}>Skoolfame</Text>
                 <Text style={styles.heading}>Sign Up</Text>
 
                 <View style={styles.form}>
-                    {/* Form*/}
+                    {/* Row Inputs */}
                     <View style={styles.row}>
                         <TextInput
                             value={firstName}
                             onChangeText={setFirstName}
                             placeholder="First name"
-                            placeholderTextColor="#bdbdbd"
-                            style={[styles.input, { flex: 1, marginRight: 6 }]}
+                            placeholderTextColor={COLORS.placeholderTextColor}
+                            style={styles.input}
                         />
+
                         <TextInput
                             value={lastName}
                             onChangeText={setLastName}
                             placeholder="Last name"
-                            placeholderTextColor="#bdbdbd"
-                            style={[styles.input, { flex: 1, marginLeft: 6 }]}
+                            placeholderTextColor={COLORS.placeholderTextColor}
+                            style={styles.input}
                         />
                     </View>
 
@@ -110,7 +143,7 @@ export default function SignUpScreen() {
                     {/* School Dropdown */}
                     <TouchableOpacity
                         activeOpacity={0.8}
-                        onPress={() => setModalVisible(true)}
+                        onPress={handleOpenSchoolModal}
                         style={styles.schoolDropdown}
                     >
                         <Text
@@ -121,31 +154,24 @@ export default function SignUpScreen() {
                         >
                             {school || 'Select High School'}
                         </Text>
-
                         <Icon name="chevron-down" size={20} color="#fff" />
                     </TouchableOpacity>
 
                     {/* School Selection Modal */}
-                    <CustomModal
+                    <SchoolModal
                         visible={modalVisible}
-                        onClose={() => setModalVisible(false)}
+                        onClose={handleCloseSchoolModal}
                         title="Select High School"
                     >
                         <FlatList
                             data={schoolList}
                             keyExtractor={(item, index) => index.toString()}
-                            renderItem={({ item }) => (
-                                <TouchableOpacity
-                                    onPress={() => handleSelectSchool(item)}
-                                    style={styles.option}
-                                >
-                                    <Text style={styles.optionText}>{item}</Text>
-                                    <View style={[styles.radioCircle, school === item && styles.radioSelected]} />
-                                </TouchableOpacity>
-                            )}
+                            renderItem={renderSchoolOption}
                         />
-                    </CustomModal>
 
+                    </SchoolModal>
+
+                    {/* Email */}
                     <CustomInput
                         value={email}
                         onChangeText={setEmail}
@@ -153,15 +179,13 @@ export default function SignUpScreen() {
                         keyboardType="email-address"
                     />
 
-                    {/* Password */}
+                    {/* Passwords */}
                     <CustomInput
                         value={password}
                         onChangeText={setPassword}
                         placeholder="Password"
                         secureTextEntry
                     />
-
-                    {/* Confirm Password */}
                     <CustomInput
                         value={confirmPassword}
                         onChangeText={setConfirmPassword}
@@ -169,11 +193,8 @@ export default function SignUpScreen() {
                         secureTextEntry
                     />
 
-                    {/* Request for School */}
-                    <TouchableOpacity
-                        style={styles.requestLink}
-                        onPress={() => setRequestModalVisible(true)}
-                    >
+                    {/* Request School */}
+                    <TouchableOpacity style={styles.requestLink} onPress={handleOpenRequestModal}>
                         <Text style={styles.link}>Request for school?</Text>
                     </TouchableOpacity>
 
@@ -181,19 +202,16 @@ export default function SignUpScreen() {
                     <CustomCheckbox
                         label="I accept the Privacy Policy and Terms & Conditions"
                         checked={privacyAccepted}
-                        onChange={() => setPrivacyAccepted(!privacyAccepted)}
+                        onChange={handlePrivacyChange}
                     />
                     <CustomCheckbox
                         label="End user license agreement"
                         checked={licenseAccepted}
-                        onChange={() => setLicenseAccepted(!licenseAccepted)}
+                        onChange={handleLicenseChange}
                     />
 
-                    {/* Sign Up Button */}
-                    <CustomButton
-                        title="Sign Up"
-                        onPress={() => console.log('Sign Up In Pressed')}
-                    />
+                    {/* Sign Up */}
+                    <CustomButton title="Sign Up" onPress={handleSignUp} />
                 </View>
             </ScrollView>
 
@@ -202,7 +220,7 @@ export default function SignUpScreen() {
                 visible={requestModalVisible}
                 animationType="slide"
                 transparent
-                onRequestClose={() => setRequestModalVisible(false)}
+                onRequestClose={handleCloseRequestModal}
             >
                 <View style={styles.modalOverlay}>
                     <View style={styles.requestModalContainer}>
@@ -212,7 +230,7 @@ export default function SignUpScreen() {
                             value={reqSchoolName}
                             onChangeText={setReqSchoolName}
                             placeholder="School name"
-                            placeholderTextColor="#bdbdbd"
+                            placeholderTextColor={COLORS.black}
                             style={styles.requestInput}
                         />
 
@@ -220,16 +238,12 @@ export default function SignUpScreen() {
                             value={reqAddress}
                             onChangeText={setReqAddress}
                             placeholder="Address"
-                            placeholderTextColor="#bdbdbd"
+                            placeholderTextColor={COLORS.black}
                             style={styles.requestInput}
                         />
 
-                        <CustomButton
-                            title="Send Request"
-                            onPress={handleSendRequest}
-                            style={{ marginTop: 20 }}
-                        />
-
+                        <CustomButton title="Send Request"
+                            onPress={handleSendRequest} />
                     </View>
                 </View>
             </Modal>
@@ -271,7 +285,7 @@ const styles = StyleSheet.create({
     },
 
     logo: {
-        fontSize: 32,
+        fontSize: getScaledFontSize(32),
         color: Colors.text,
         fontFamily: Font.logo,
         textAlign: 'center',
@@ -280,7 +294,7 @@ const styles = StyleSheet.create({
 
     heading: {
         fontWeight: '400',
-        fontSize: 20,
+        fontSize: getScaledFontSize(20),
         color: Colors.text,
         textAlign: 'center',
         marginBottom: 40,
@@ -336,7 +350,7 @@ const styles = StyleSheet.create({
 
     schoolText: {
         color: Colors.text,
-        fontSize: 16,
+        fontSize: getScaledFontSize(16),
     },
 
     schoolSelected: {
@@ -349,12 +363,11 @@ const styles = StyleSheet.create({
     },
 
     link: {
-        fontSize: 13,
+        fontSize: getScaledFontSize(13),
         color: Colors.PrimaryText,
         fontWeight: '400',
         lineHeight: 20,
     },
-
 
     option: {
         paddingVertical: 12,
@@ -366,7 +379,7 @@ const styles = StyleSheet.create({
     },
 
     optionText: {
-        fontSize: 20,
+        fontSize: getScaledFontSize(20),
         color: Colors.background,
         fontWeight: '500',
         lineHeight: 20,
@@ -377,7 +390,7 @@ const styles = StyleSheet.create({
         width: 18,
         borderRadius: 9,
         borderWidth: 1.5,
-        borderColor: '#bbb',
+        borderColor: COLORS.medium_dark_gray,
     },
 
     radioSelected: {
@@ -401,11 +414,11 @@ const styles = StyleSheet.create({
     },
 
     modalTitle: {
-        fontSize: 16,
+        fontSize: getScaledFontSize(16),
         fontWeight: '400',
         textAlign: 'center',
         marginBottom: 16,
-        color: '#000',
+        color: COLORS.background,
     },
 
     requestInput: {
@@ -413,7 +426,7 @@ const styles = StyleSheet.create({
         height: 45,
         borderRadius: 30,
         borderWidth: 1,
-        borderColor: '#ccc',
+        borderColor: COLORS.Gray200,
         paddingHorizontal: 18,
         color: Colors.background,
         marginVertical: 8,

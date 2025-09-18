@@ -1,12 +1,17 @@
 import React, { useEffect } from "react";
 import { ImageBackground, Text, StyleSheet } from "react-native";
-import { SCREENS } from "../../navigation/navigationStrings/NavigationStrings";
+import { SCREENS } from '../../../navigation/NavigationStrings';
+import Images from "../../../constants/imagePath";
+import COLORS from "../../../constants/colors";
+import FONTS from "../../../constants/fonts";
+import { useNavigation } from "@react-navigation/native";
+import { getScaledFontSize } from "../../../constants/globalFunction";
 
-const SplashScreen = ({ navigation }) => {
-
+const SplashScreen = () => {
+    const navigation = useNavigation();
     useEffect(() => {
         const timer = setTimeout(() => {
-            navigation.replace(SCREENS.LOGIN);
+            navigation.navigate(SCREENS.LOGIN);
         }, 5000);
 
         return () => clearTimeout(timer);
@@ -14,7 +19,7 @@ const SplashScreen = ({ navigation }) => {
 
     return (
         <ImageBackground
-            source={require("../../assets/Images/Maskgroup.jpg")}
+            source={Images.Background}
             style={styles.background}
             resizeMode="cover"
         >
@@ -24,6 +29,7 @@ const SplashScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+
     background: {
         flex: 1,
         justifyContent: "center",
@@ -31,10 +37,10 @@ const styles = StyleSheet.create({
     },
 
     logoText: {
-        fontSize: 50,
+        fontSize: getScaledFontSize(50),
         fontWeight: "900",
-        color: "#ffffff",
-        fontFamily: "cursive",
+        color: COLORS.text,
+        fontFamily: FONTS.logo,
     },
 });
 

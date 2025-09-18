@@ -1,7 +1,10 @@
 import React from 'react';
 import { View, Text, Modal, TouchableOpacity, StyleSheet } from 'react-native';
+import COLORS from '../../constants/colors';
+import { getScaledFontSize } from '../../constants/globalFunction';
 
-export default function CustomModal({
+
+export default function SchoolModal({
     visible,
     onClose,
     title,
@@ -26,14 +29,14 @@ export default function CustomModal({
 }
 
 const styles = StyleSheet.create({
+
     modalOverlay: {
         flex: 1,
-        backgroundColor: 'rgba(0,0,0,0.5)',
         justifyContent: 'flex-end',
     },
 
     modalContainer: {
-        backgroundColor: '#fff',
+        backgroundColor: COLORS.text,
         borderTopLeftRadius: 24,
         borderTopRightRadius: 24,
         paddingHorizontal: 20,
@@ -42,7 +45,7 @@ const styles = StyleSheet.create({
     },
 
     modalTitle: {
-        fontSize: 18,
+        fontSize: getScaledFontSize(18),
         fontWeight: '500',
         textAlign: 'center',
         marginBottom: 12,
